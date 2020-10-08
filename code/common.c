@@ -60,7 +60,7 @@ void user_add(user_t *u) {
 	fclose(fp);
 }
 
-int user_fine_by_email(user_t *u, char email[]){
+int user_find_by_email(user_t *u, char email[]){
     FILE *fp;
     int found = 0;
     //open the file for reading the data
