@@ -30,7 +30,10 @@ void sign_in(){
 
 void sign_up(){
 	// input user details from the user.
+	user_t u;
+	user_accept(&u);
 	// write user details into the users file.
+	user_add(&u);
 }
 
 int main(){
@@ -38,8 +41,8 @@ int main(){
 	// tester();
 	int choice;
 	do{
-		printf("\n\n1. Sign In\n2. Sing Up\nEnter Choice: ");
-		scanf("%d, &choice");
+		printf("\n\n0. Exit\n1. Sign In\n2. Sing Up\nEnter Choice: ");
+		scanf("%d", &choice);
 		switch (choice)
 		{
 		case 1: //SignIn
