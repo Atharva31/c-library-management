@@ -9,7 +9,8 @@ void owner_area(user_t *u){
 		printf("\n\n0. Sign Out\n1. Appoint Librarian\n2. Edit Profile\n3. Change Password\n4. Fees/Fine Report\n5. Book Availability\n6. Book Categories/Subjects\nEnter choice: ");
 		scanf("%d", &choice);
 		switch(choice) {
-			case 1:
+			case 1: //Appoint librarian.
+                appoint_librarian();
 				break;
 			case 2:
 				break;
@@ -23,4 +24,14 @@ void owner_area(user_t *u){
 				break;
 		}
 	}while (choice != 0);	
+}
+
+void appoint_librarian(){
+    //input librarian detials.
+    user_t u;
+    user_accept(&u);
+    //change user role to librarian
+    strcpy(u.role, ROLE_LIBRARIAN);
+    //add librarian into user file 
+    user_add(&u);
 }
