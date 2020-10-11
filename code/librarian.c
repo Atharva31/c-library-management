@@ -30,7 +30,8 @@ void librarian_area(user_t *u){
 				break;
 			case 7:
 				break;
-			case 8:
+			case 8: // Add copy
+				bookcopy_add();
 				break;
 			case 9:
 				break;
@@ -111,5 +112,25 @@ void book_edit_by_id(){
 		//show message to user that book not found
 		printf("Book not found.\n");
 	//close the book file
+	fclose(fp);
+}
+
+void bookcopy_add(){
+	FILE *fp;
+	//input bookcopy details
+	bookcopy_t b;
+	bookcopy_accept(&b);
+	b.id = get_next_bookcopy_id();
+	//add book copy into the book file
+	//open book copies file
+	fp = fopen(BOOKCOPY_DB, "ab");
+	if(fp == NULL){
+		perror("cannot open book copies file");
+		exit(1);
+	}
+	//append book to the file
+	fwrite(&b, sizeof(bookcopy_t), 1, fp);
+	printf("book copy added to the file.\n");
+	//close books file
 	fclose(fp);
 }

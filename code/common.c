@@ -45,8 +45,8 @@ void book_display(book_t *b){
 
 //bookcopy functions
 void bookcopy_accept(bookcopy_t *c){
-	printf("id: ");
-	scanf("%d", &c->id);
+	// printf("id: ");
+	// scanf("%d", &c->id);
 	printf("book id: ");
 	scanf("%d", &c->bookid);
 	printf("rack: ");
@@ -209,6 +209,27 @@ int get_next_book_id(){
 	if(fread(&b, size, 1, fp) > 0)
 		//read is successful, get max id
 		max = b.id;
+	//close the file
+	fclose(fp);
+	//return max+1
+	return max+1;
+}
+
+int get_next_bookcopy_id(){
+	FILE *fp;
+	int max = 0;
+	int size = sizeof(bookcopy_t);
+	bookcopy_t u;
+	//open the file
+	fp = fopen(BOOKCOPY_DB, "rb");
+	if(fp == NULL)
+		return max+1;
+	//change file post to the last record
+	fseek(fp, -size, SEEK_END);
+	//read the record from the file
+	if(fread(&u, size, 1, fp) > 0)
+		// if read is successful get its max id
+		max = u.id;
 	//close the file
 	fclose(fp);
 	//return max+1
