@@ -54,7 +54,7 @@ void bookcopy_accept(bookcopy_t *c){
 	strcpy(c->status, STATUS_AVAIL);
 }
 
-void bookccopy_display(bookcopy_t *c){
+void bookcopy_display(bookcopy_t *c){
 	printf("%d, %d, %d, %s\n", c->id, c->bookid, c->rack, c->status);
 }
 

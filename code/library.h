@@ -85,6 +85,7 @@ void add_member();
 void add_book();
 void book_edit_by_id();
 void bookcopy_add();
+void boockcopy_checkavail_details();
 
 //member functions
 void member_area(user_t *u);

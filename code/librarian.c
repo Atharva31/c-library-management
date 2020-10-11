@@ -28,7 +28,8 @@ void librarian_area(user_t *u){
 			case 6:// Edit Book
 				book_edit_by_id();
 				break;
-			case 7:
+			case 7:// Check Availability
+				boockcopy_checkavail_details(); 
 				break;
 			case 8: // Add copy
 				bookcopy_add();
@@ -133,4 +134,34 @@ void bookcopy_add(){
 	printf("book copy added to the file.\n");
 	//close books file
 	fclose(fp);
+}
+
+void boockcopy_checkavail_details(){
+	int book_id;
+	FILE *fp;
+	bookcopy_t bc;
+	int count = 0;
+	//input book id
+	printf("Enter the book id: ");
+	scanf("%d", &book_id);
+	//open the bookcopy file
+	fp = fopen(BOOKCOPY_DB, "rb");
+	if(fp == NULL){
+		perror("cannot open bookcopies file.\n");
+		return;
+	}
+	
+	// read bookcopy record one by one
+	while(fread(&bc, sizeof(bookcopy_t), 1, fp) > 0){
+		//if book id is matching and status i available, print copy details
+		if(bc.bookid == book_id && strcmp(bc.status, STATUS_AVAIL) == 0){
+			bookcopy_display(&bc);
+			count++;
+		} 
+	}
+	// close bookcopy file
+	fclose(fp);
+	//if no copy is available print the message
+	if(count == 0)
+		printf("no copies available.\n");
 }
