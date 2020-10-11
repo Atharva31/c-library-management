@@ -25,8 +25,8 @@ void user_display(user_t *u){
 
 //book functions
 void book_accept(book_t *b){
-    printf("id: ");
-	scanf("%d", &b->id);
+    // printf("id: ");
+	// scanf("%d", &b->id);
 	printf("name: ");
 	scanf("%s", b->name);
 	printf("author: ");
@@ -164,6 +164,27 @@ int get_next_user_id(){
 	if(fread(&u, size, 1, fp) > 0)
 		//if read is successful read its max id
 		max = u.id;
+	//close the file
+	fclose(fp);
+	//return max+1
+	return max+1;
+}
+
+int get_next_book_id(){
+	FILE *fp;
+	int  max = 0;
+	int size = sizeof(book_t);
+	book_t b;
+	//open the file
+	fp = fopen(BOOK_DB, "rb");
+	if(fp = NULL)
+		return max+1;
+	//change the file position to the last record
+	fseek(fp, -size, SEEK_END);
+	//read the record from the file
+	if(fread(&b, size, 1, fp) > 0)
+		//read is successful, get max id
+		max = b.id;
 	//close the file
 	fclose(fp);
 	//return max+1

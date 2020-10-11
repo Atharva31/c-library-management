@@ -16,7 +16,8 @@ void librarian_area(user_t *u){
 				break;
 			case 3:
 				break;
-			case 4:
+			case 4: //Add book
+				add_book();
 				break;
 			case 5:
 				break;
@@ -46,4 +47,24 @@ void add_member(){
 	user_accept(&u);
 	//add librarian into user filr
 	user_add(&u);
+}
+
+void add_book(){
+	FILE *fp;
+	//input book details
+	book_t b;
+	book_accept(&b);
+	b.id = get_next_book_id();
+	//add book into the book file
+	//open book file
+	fp = fopen(BOOK_DB, "ab");
+	if(fp = NULL){
+		perror("cannot open books files");
+		exit(1);
+	}
+	//append book to the file
+	fwrite(&b, sizeof(book_t), 1,fp);
+	printf("book added in the file.\n");
+	//close the file
+	fclose(fp);
 }
