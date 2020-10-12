@@ -59,7 +59,7 @@ void bookcopy_display(bookcopy_t *c){
 }
 
 //issuerecord function
-void issuerecord_accept(issuerrecord_t *r){
+void issuerecord_accept(issuerecord_t *r){
 	// printf("id: ");
 	// scanf("%d",r->id);
 	printf("copy id: ");
@@ -74,8 +74,8 @@ void issuerecord_accept(issuerrecord_t *r){
 	r->fine_amount = 0.0;
 }
 
-void issuerecord_display(issuerrecord_t *r){
-	printf("issue record: %d, copy: %d, member: %d, find: %.2lf\n", r->id, r->copyid, r->memberid, r->fine_amount);
+void issuerecord_display(issuerecord_t *r){
+	printf("issue record: %d, copy: %d, member: %d, fine: %.2lf\n", r->id, r->copyid, r->memberid, r->fine_amount);
 	printf("issue ");
 	date_print(&r->issue_date);
 	printf("return due ");
@@ -239,8 +239,8 @@ int get_next_bookcopy_id(){
 int get_next_issuerecord_id(){
 	FILE *fp;
 	int max = 0;
-	int size = sizeof(issuerrecord_t);
-	issuerrecord_t i;
+	int size = sizeof(issuerecord_t);
+	issuerecord_t i;
 	//open the file
 	fp = fopen(ISSUERECORD_DB, "rb");
 	if(fp == NULL)

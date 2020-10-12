@@ -49,7 +49,7 @@ typedef struct bookcopy{
 	char status[16];
 }bookcopy_t;
 
-typedef struct issuerrecord{
+typedef struct issuerecord{
 	int id;
 	int copyid;
 	int memberid;
@@ -57,7 +57,7 @@ typedef struct issuerrecord{
 	date_t return_duedate;
 	date_t return_date;
 	double fine_amount;
-}issuerrecord_t;
+}issuerecord_t;
 
 typedef struct payment{
 	int id;
@@ -89,6 +89,8 @@ void bookcopy_add();
 void boockcopy_checkavail_details();
 void bookcopy_issue();
 void bookcopy_changestatus(int bookcopy_id, char status[]);
+void display_issued_bookcopies(int member_id);
+void bookcopy_return();
 
 //member functions
 void member_area(user_t *u);
@@ -99,8 +101,8 @@ void bookcopy_accept(bookcopy_t *c);
 void bookcopy_display(bookcopy_t *c);
 
 //issuerecord functions
-void issuerecord_accept(issuerrecord_t *r);
-void issuerecord_display(issuerrecord_t *r);
+void issuerecord_accept(issuerecord_t *r);
+void issuerecord_display(issuerecord_t *r);
 
 //payment functions
 void payment_accept(payment_t *p);
