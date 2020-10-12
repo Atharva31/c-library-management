@@ -95,6 +95,7 @@ void bookcopy_return();
 void fees_payment_add();
 void payment_history(int member_id);
 int is_paid_member(int memberid);
+void fine_payment_add(int memberid, double fine_amount);
 
 //member functions
 void member_area(user_t *u);

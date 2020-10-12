@@ -279,8 +279,11 @@ void bookcopy_return(){
 			// check for the fine amount
 			diff_days = date_cmp(rec.return_date, rec.return_duedate);
 			// update fine amount if any
-			if(diff_days > 0)
+			if(diff_days > 0){
 				rec.fine_amount = diff_days * FINE_PER_DAY;
+				fine_payment_add(rec.memberid, rec.fine_amount);
+				printf("fine amount Rs. %.2lf/- is applied.\n", rec.fine_amount);
+			}
 			break;
 		}
 	}
@@ -358,4 +361,26 @@ int is_paid_member(int memberid){
 	//close file
 	fclose(fp);
 	return paid;
+}
+
+void fine_payment_add(int memberid, double fine_ammount){
+	FILE *fp;
+	//initialize fine payment
+	payment_t pay;
+	pay.id = get_next_payment_id();
+	pay.memberid = memberid;
+	pay.amount = fine_ammount;
+	strcpy(pay.type, PAY_TYPE_FINE);
+	pay.tx_time = date_current();
+	memset(&pay.next_pay_duedate, 0, sizeof(date_t));
+	//open the file
+	fp = fopen(PAYMENT_DB, "ab");
+	if(fp == NULL){
+		perror("cannot open payment file.\n");
+		exit(1);
+	}
+	//append payment data at the end of the file
+	fwrite(&pay, sizeof(payment_t), 1, fp);
+	//close the file
+	fclose(fp);	
 }
