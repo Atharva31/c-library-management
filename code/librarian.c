@@ -4,7 +4,7 @@
 #include "library.h"
 
 void librarian_area(user_t *u){
-    int choice;
+    int choice, member_id;	
 	char name[80];
     do{
         printf("\n\n0. Sign Out\n1. Add member\n2. Edit Profile\n3. Change Password\n4. Add Book\n5. Find Book\n6. Edit Book\n7. Check Availability\n8. Add Copy\n9. Change Rack\n10. Issue Copy\n11. Return Copy\n12. Take Payment\n13. Payment History\nEnter choice: ");
@@ -42,9 +42,13 @@ void librarian_area(user_t *u){
 			case 11:// Return Book Copy
 				bookcopy_return(); 
 				break;
-			case 12:
+			case 12:// Take payment
+				fees_payment_add();
 				break;
-			case 13:
+			case 13:// Payment history
+				printf("Enter the member id: ");
+				scanf("%d", &member_id);
+				payment_history(member_id);
 				break;
 		}
 	}while (choice != 0);
@@ -221,18 +225,18 @@ void bookcopy_changestatus(int bookcopy_id, char status[]){
 	fclose(fp);
 }
 
-void display_issued_bookcopies(int member_id) {
+void display_issued_bookcopies(int member_id){
 	FILE *fp;
 	issuerecord_t rec;
 	// open issue records file
 	fp = fopen(ISSUERECORD_DB, "rb");
-	if(fp==NULL) {
+	if(fp==NULL){
 		perror("cannot open issue record file");
 		return;
 	}
 
 	// read records one by one
-	while(fread(&rec, sizeof(issuerecord_t), 1, fp) > 0) {
+	while(fread(&rec, sizeof(issuerecord_t), 1, fp) > 0){
 		// if member_id is matching and return date is 0, print it.
 		if(rec.memberid == member_id && rec.return_date.day == 0)
 			issuerecord_display(&rec);
@@ -241,7 +245,7 @@ void display_issued_bookcopies(int member_id) {
 	fclose(fp);
 }
 
-void bookcopy_return() {
+void bookcopy_return(){
 	int member_id, record_id;
 	FILE *fp;
 	issuerecord_t rec;
@@ -257,12 +261,12 @@ void bookcopy_return() {
 	scanf("%d", &record_id);
 	// open issuerecord file
 	fp = fopen(ISSUERECORD_DB, "rb+");
-	if(fp==NULL) {
+	if(fp==NULL){
 		perror("cannot open issue record file");
 		return;
 	}
 	// read records one by one
-	while(fread(&rec, sizeof(issuerecord_t), 1, fp) > 0) {
+	while(fread(&rec, sizeof(issuerecord_t), 1, fp) > 0){
 		// find issuerecord id
 		if(record_id == rec.id) {
 			found = 1;
@@ -277,7 +281,7 @@ void bookcopy_return() {
 		}
 	}
 	
-	if(found) {
+	if(found){
 		// go one record back
 		fseek(fp, -size, SEEK_CUR);
 		// overwrite the issue record
@@ -290,5 +294,41 @@ void bookcopy_return() {
 	}
 	
 	// close the file.
+	fclose(fp);
+}
+
+void fees_payment_add(){
+	FILE *fp;
+	//accept fees payment
+	payment_t pay;
+	payment_accept(&pay);
+	pay.id = get_next_payment_id();
+	//open the file
+	fp = fopen(PAYMENT_DB, "ab");
+	if(fp == NULL){
+		perror("cannot open payment file.\n");
+		exit(1);
+	}
+	//append payment data at the end of the file
+	fwrite(&pay, sizeof(payment_t), 1, fp);
+	//close the file
+	fclose(fp);
+}
+
+void payment_history(int memberid){
+	FILE *fp;
+	payment_t pay;
+	//open file
+	fp = fopen(PAYMENT_DB, "rb");
+	if(fp == NULL){
+		perror("cannot open payment file.\n");
+		return;
+	}
+	//read payment one by one till the eof
+	while(fread(&pay, sizeof(payment_t), 1, fp) > 0){
+		if(pay.memberid = memberid)
+			payment_display(&pay);
+	}
+	//close the file
 	fclose(fp);
 }
