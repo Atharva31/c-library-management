@@ -94,6 +94,7 @@ void display_issued_bookcopies(int member_id);
 void bookcopy_return();
 void fees_payment_add();
 void payment_history(int member_id);
+int is_paid_member(int memberid);
 
 //member functions
 void member_area(user_t *u);
