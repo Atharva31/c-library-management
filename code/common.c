@@ -322,3 +322,51 @@ void change_password(user_t *u){
 	
 	return;
 }
+
+void edit_profile(user_t *u){
+	user_t nu;
+	char name[30], phone[15], email[30];
+	int size = sizeof(user_t);
+	FILE *fp;
+	fp = fopen(USER_DB, "rb+");
+	if(fp == NULL){
+		perror("cannot open user file.\n");
+		return;
+	}
+
+	while(fread(&nu, size, 1, fp) > 0){
+		if(nu.id == u->id)
+			break;
+	}
+
+	nu.id = u->id;
+	strcpy(nu.password, u->password);
+	strcpy(nu.role, u->role);
+
+	printf("Enter name: ");
+	scanf("%s", name);
+
+	if(strcmp(u->role, ROLE_OWNER) == 0)
+		strcpy(nu.email, u->email);
+	else
+	{
+		printf("Enter Email: ");
+		scanf("%s", email);
+		strcpy(nu.email, email);
+	}
+
+	printf("Enter Phone: ");
+	scanf("%s", phone);
+
+	strcpy(nu.name, name);
+	strcpy(nu.phone, phone);
+
+	fseek(fp, -size, SEEK_CUR);
+
+	fwrite(&nu, size, 1, fp);
+	printf("profile update.\n");
+
+	fclose(fp);
+
+	return;
+}

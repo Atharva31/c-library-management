@@ -13,7 +13,8 @@ void librarian_area(user_t *u){
 			case 1: //Add member
 				add_member();
 				break;
-			case 2:
+			case 2: //Edit Profile
+				edit_profile(u);
 				break;
 			case 3://Change Password
 				change_password(u);

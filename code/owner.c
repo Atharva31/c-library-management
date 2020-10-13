@@ -12,7 +12,8 @@ void owner_area(user_t *u){
 			case 1: //Appoint librarian.
                 appoint_librarian();
 				break;
-			case 2:
+			case 2://Edit Profile
+				edit_profile(u);
 				break;
 			case 3:// Change password;
 				change_password(u);

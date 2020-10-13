@@ -15,7 +15,8 @@ void member_area(user_t *u){
 				scanf("%s", name);
 				book_find_by_name(name);
 				break;
-			case 2:
+			case 2://Edit Profile
+				edit_profile(u);
 				break;
 			case 3:// Change password
 				change_password(u);
