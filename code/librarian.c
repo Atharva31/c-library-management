@@ -4,7 +4,7 @@
 #include "library.h"
 
 void librarian_area(user_t *u){
-    int choice, member_id;	
+    int choice, member_id, bookcopy_id;	
 	char name[80];
     do{
         printf("\n\n0. Sign Out\n1. Add member\n2. Edit Profile\n3. Change Password\n4. Add Book\n5. Find Book\n6. Edit Book\n7. Check Availability\n8. Add Copy\n9. Change Rack\n10. Issue Copy\n11. Return Copy\n12. Take Payment\n13. Payment History\nEnter choice: ");
@@ -36,7 +36,10 @@ void librarian_area(user_t *u){
 			case 8: // Add copy
 				bookcopy_add();
 				break;
-			case 9:
+			case 9://Change rack
+				printf("enter bookcopy id: ");
+				scanf("%d", &bookcopy_id);
+				change_rack(bookcopy_id);
 				break;
 			case 10: // Issue Book Copy
 				bookcopy_issue();
@@ -385,4 +388,32 @@ void fine_payment_add(int memberid, double fine_ammount){
 	fwrite(&pay, sizeof(payment_t), 1, fp);
 	//close the file
 	fclose(fp);	
+}
+
+void change_rack(int bookcopy_id){
+	int rack;
+	bookcopy_t bc;
+
+	FILE *fp;
+	fp = fopen(BOOKCOPY_DB, "rb+");
+	if(fp == NULL){
+		perror("cannot open bookcopy file.\n");
+		return;
+	}
+
+	printf("Enter new Rack: ");
+	scanf("%d", &rack);
+
+	while(fread(&bc, sizeof(bookcopy_t), 1, fp) > 0){
+		if(bc.bookid == bookcopy_id){
+			bc.rack = rack;
+
+			fseek(fp, -sizeof(bookcopy_t), SEEK_CUR);
+
+			fwrite(&bc, sizeof(bookcopy_t), 1, fp);
+			printf("rack changed.\n");
+			break;
+		}
+ 	}
+	 fclose(fp);
 }
