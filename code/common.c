@@ -89,7 +89,7 @@ void payment_accept(payment_t *p){
 	// printf("id: ");
 	// scanf("%d",&p->id);
 	printf("member id: ");
-	scanf("%d",p->memberid);
+	scanf("%d",&p->memberid);
 	// printf("type (fees/fine): ");
 	// scanf("%s",p->type);
 	strcpy(p->type, PAY_TYPE_FEES);

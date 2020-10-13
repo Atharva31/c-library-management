@@ -405,7 +405,9 @@ void change_rack(int bookcopy_id){
 	scanf("%d", &rack);
 
 	while(fread(&bc, sizeof(bookcopy_t), 1, fp) > 0){
-		if(bc.bookid == bookcopy_id){
+		printf("111\n");
+		if(bc.id == bookcopy_id){
+			printf("here.\n");
 			bc.rack = rack;
 
 			fseek(fp, -sizeof(bookcopy_t), SEEK_CUR);
