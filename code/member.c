@@ -17,7 +17,8 @@ void member_area(user_t *u){
 				break;
 			case 2:
 				break;
-			case 3:
+			case 3:// Change password
+				change_password(u);
 				break;
 			case 4:// Book Availability
 				bookcopy_checkavail();

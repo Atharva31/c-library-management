@@ -278,3 +278,47 @@ int get_next_payment_id(){
 	//return max+1
 	return max+1;
 }
+
+void change_password(user_t *u){
+	char password[10], newpass[10], newpass1[10];
+	FILE *fp;
+	user_t a;
+	fp = fopen(USER_DB, "rb+" );
+	if(fp == NULL){
+		perror("cannot open user file.\n");
+		return;
+	}
+	while(fread(&a, sizeof(user_t), 1, fp) > 0){
+		if(a.id == u->id)
+			break;
+	}
+
+	printf("Enter your old password: ");
+	scanf("%s", password);
+	if(strcmp(u->password, password) == 0){
+		printf("Enter your new password: ");
+		scanf("%s", newpass);
+		printf("Confirm your new password: ");
+		scanf("%s", newpass1);
+	}
+	if(strcmp(newpass,newpass1) == 0)
+		strcpy(a.password,newpass1);
+	else{
+		printf("Passwords do not match.\n");
+		return;
+	}
+	strcpy(a.email, u->email);
+	a.id = u->id;
+	strcpy(a.name, u->name);
+	strcpy(a.phone, u->phone);
+	strcpy(a.role, u->role);
+
+	fseek(fp, -sizeof(user_t), SEEK_CUR);
+
+	fwrite(&a, sizeof(user_t), 1, fp);
+	printf("password updated.\n");
+
+	fclose(fp);
+	
+	return;
+}

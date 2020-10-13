@@ -15,7 +15,8 @@ void librarian_area(user_t *u){
 				break;
 			case 2:
 				break;
-			case 3:
+			case 3://Change Password
+				change_password(u);
 				break;
 			case 4: //Add book
 				add_book();
