@@ -1,7 +1,7 @@
 # Library Management
 
 #### Documentation:
-    * https://gitlab.com/Atharva31/c-library-management
+    * [https://gitlab.com/Atharva31/c-library-management](https://github.com/Atharva31/c-library-management)
 
 ## This Software can be used by three types of user
     * Owner
